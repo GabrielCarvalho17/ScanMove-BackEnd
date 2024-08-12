@@ -6,7 +6,6 @@ from .serializers import UsuarioSerializer
 from drf_spectacular.utils import extend_schema
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer, TokenRefreshSerializer
-from rest_framework.response import Response
 
 @extend_schema(
     tags=["Usuários"],

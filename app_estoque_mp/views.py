@@ -6,18 +6,18 @@ from .serializers import MateriaisSerializer, LocalizacoesSerializer
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 
-class EstoqueMateriaisView(viewsets.ViewSet):
+class PecaViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
 
     @extend_schema(
         tags=["Estoque de Materiais"],
-        operation_id='retrieve_peca',
+        operation_id='obter_peca',
         parameters=[
             OpenApiParameter(name="peca", type=OpenApiTypes.STR, location=OpenApiParameter.PATH),
         ],
         responses={200: MateriaisSerializer(many=True)}
     )
-    def retrieve_peca(self, request, peca=None):
+    def obter_peca(self, request, peca=None):
         if not peca:
             return Response({'detail': 'Peca é obrigatória.'}, status=400)
 
@@ -59,13 +59,17 @@ class EstoqueMateriaisView(viewsets.ViewSet):
         serializer = MateriaisSerializer(results, many=True)
         return Response({'total': total, 'results': serializer.data})
 
+
+class LocalizacaoViewSet(viewsets.ViewSet):
+    permission_classes = [IsAuthenticated]
+
     @extend_schema(
         tags=["Estoque de Materiais"],
-        operation_id='retrieve_localizacao',
+        operation_id='obter_localizacao',
         parameters=[OpenApiParameter(name="localizacao", type=OpenApiTypes.STR, location=OpenApiParameter.PATH)],
         responses={200: LocalizacoesSerializer(many=True)}
     )
-    def retrieve_localizacao(self, request, localizacao=None):
+    def obter_localizacao(self, request, localizacao=None):
         if not localizacao:
             return Response({'detail': 'Not found.'}, status=404)
 
