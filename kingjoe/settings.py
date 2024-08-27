@@ -28,7 +28,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']  # Permite acesso de qualquer host
 
-
+CSRF_TRUSTED_ORIGINS = [
+    'https://api-aplicacoes-internas.usekingjoe.com.br',
+    # outros domínios se necessário
+]
 
 # Application definition
 
