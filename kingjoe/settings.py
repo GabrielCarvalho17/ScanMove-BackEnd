@@ -82,7 +82,7 @@ SIMPLE_JWT = {
 # Configurações do drf-spectacular
 SPECTACULAR_SETTINGS = {
     'TITLE': 'king&Joe API',
-    'DESCRIPTION': 'API para gerenciar dados da King&Joe.',
+    'DESCRIPTION': 'API para gerenciar aplicações internas da King&Joe.',
     'VERSION': '1.0.0',
     'CONTACT': {
         'name': 'TI King&Joe',
@@ -151,7 +151,7 @@ WSGI_APPLICATION = 'kingjoe.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'mssql',
-        'NAME': 'KINGEJOE',
+        'NAME': 'HOMOLOG',
         'USER': 'API_KINGEJOE',
         'PASSWORD': 'K1ng&J03@DB2024',
         'HOST': '192.168.1.3',

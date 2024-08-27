@@ -1,0 +1,28 @@
+{
+    "pecas": [
+        {
+            "peca": "7",
+            "partida": "IMP",
+            "material": "01010049",
+            "desc_material": "SARJA HUSKY SNOW COLOR TNBRAE1003RN",
+            "cor_material": "00032",
+            "desc_cor_material": "NATURAL",
+            "unidade": "MT",
+            "quantidade": "160.090",
+            "filial": "KING&JOE",
+            "localizacao": "A01"
+          },
+          {
+            "peca": "6",
+            "partida": "IMP",
+            "material": "01010048",
+            "desc_material": "INDIGO NEW DANCE TAIAHAE1003CA",
+            "cor_material": "00031",
+            "desc_cor_material": "INDIGO",
+            "unidade": "MT",
+            "quantidade": "48.000",
+            "filial": "KING&JOE",
+            "localizacao": "A01"
+          }
+    ]
+}
