@@ -1,28 +1,23 @@
 {
-    "pecas": [
-        {
-            "peca": "7",
-            "partida": "IMP",
-            "material": "01010049",
-            "desc_material": "SARJA HUSKY SNOW COLOR TNBRAE1003RN",
-            "cor_material": "00032",
-            "desc_cor_material": "NATURAL",
-            "unidade": "MT",
-            "quantidade": "160.090",
-            "filial": "KING&JOE",
-            "localizacao": "A01"
-          },
-          {
-            "peca": "6",
-            "partida": "IMP",
-            "material": "01010048",
-            "desc_material": "INDIGO NEW DANCE TAIAHAE1003CA",
-            "cor_material": "00031",
-            "desc_cor_material": "INDIGO",
-            "unidade": "MT",
-            "quantidade": "48.000",
-            "filial": "KING&JOE",
-            "localizacao": "A01"
-          }
-    ]
+  "data_inicio": "2024-08-29T12:02:09.811Z",
+  "data_modificacao": "2024-08-29T12:02:09.811Z",
+  "status": "Andamento",
+  "usuario": "gabriel.carvalho",
+  "origem": "A01",
+  "destino": "A02",
+  "total_pecas": 0,
+  "pecas": [
+    {
+      "peca": "003703",
+      "partida": "",
+      "material": "01021928",
+      "desc_material": "MALHA PELO CARNEIRO 020151",
+      "cor_material": "00039",
+      "desc_cor_material": "BEGE",
+      "unidade": "KG",
+      "quantidade": "2.940",
+      "filial": "KING&JOE",
+      "localizacao": "A01"
+    }
+  ]
 }

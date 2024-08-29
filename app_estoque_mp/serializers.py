@@ -15,7 +15,9 @@ class LocalizacoesSerializer(serializers.Serializer):
 
 class PecaSerializer(serializers.Serializer):
     peca = serializers.CharField(max_length=6)
-    partida = serializers.CharField(max_length=6)
+    partida = serializers.CharField(
+        max_length=6, required=False, allow_null=True, allow_blank=True
+    )
     material = serializers.CharField(max_length=11)
     desc_material = serializers.CharField(max_length=80)
     cor_material = serializers.CharField(max_length=10)
@@ -23,7 +25,9 @@ class PecaSerializer(serializers.Serializer):
     unidade = serializers.CharField(max_length=5)
     quantidade = serializers.DecimalField(max_digits=10, decimal_places=3)
     filial = serializers.CharField(max_length=25)
-    localizacao = serializers.CharField(max_length=8, required=False, allow_null=True)
+    localizacao = serializers.CharField(
+        max_length=8, required=False, allow_null=True, allow_blank=True
+    )
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
