@@ -171,10 +171,13 @@ class MovimentacaoViewSet(viewsets.ViewSet):
             LEFT JOIN 
                 ESTOQUE_MAT_PECA ep ON ep.PECA = mp.PECA
             WHERE 
-            (m.USUARIO = '{username}' AND CONVERT(DATE, m.DATA_INICIO) = '{data_atual}')
-			OR 
-			(m.USUARIO = '{username}' AND m.status = 'Andamento')
-			ORDER BY m.status
+                m.USUARIO = '{username}' 
+                AND (
+                    CONVERT(DATE, m.DATA_INICIO) = '{data_atual}'  -- Movimentações do dia atual
+                    OR m.status = 'Andamento'                      -- Ou movimentações em andamento
+                )
+            ORDER BY 
+                m.status
         """
 
         with connections["default"].cursor() as cursor:
@@ -481,7 +484,7 @@ class MovimentacaoViewSet(viewsets.ViewSet):
                     fields_to_update.append("destino = %s")
                     params.append(data["destino"])
                 if "status" in data and data["status"] == True:
-                    print('Entrei aqui!')
+                    print("Entrei aqui!")
                     fields_to_update.append("status = %s")
                     params.append("Finalizada")
 
@@ -498,9 +501,13 @@ class MovimentacaoViewSet(viewsets.ViewSet):
                             """,
                             [movimentacao],
                         )
-                        logging.info(f"Estoque de materiais atualizado para movimentacao {movimentacao}")
+                        logging.info(
+                            f"Estoque de materiais atualizado para movimentacao {movimentacao}"
+                        )
                     except Exception as e:
-                        logging.error(f"Erro ao atualizar o estoque de materiais: {str(e)}")
+                        logging.error(
+                            f"Erro ao atualizar o estoque de materiais: {str(e)}"
+                        )
                         raise
 
                 # A data_modificacao deve sempre estar presente e ser atualizada
