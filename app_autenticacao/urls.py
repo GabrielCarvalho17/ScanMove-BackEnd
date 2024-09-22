@@ -16,7 +16,6 @@ urlpatterns = [
     path('swagger/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('', RedirectView.as_view(url='/admin/login/', permanent=True)),
     path('', include(router.urls)),  # Inclui as rotas diretamente
-    path('', include('app_estoque_mp.urls')),  # Incluir as rotas do app_estoque_mp sem prefixo adicional
     path('token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', CustomTokenRefreshView.as_view(), name='token_refresh'),
 ]

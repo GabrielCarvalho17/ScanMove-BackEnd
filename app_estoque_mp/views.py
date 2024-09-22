@@ -21,7 +21,7 @@ class PecaViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
 
     @extend_schema(
-        tags=["Estoque de Materiais"],
+        tags=["ScanMove"],
         operation_id="obter_peca",
         parameters=[
             OpenApiParameter(
@@ -80,7 +80,7 @@ class LocalizacaoViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
 
     @extend_schema(
-        tags=["Estoque de Materiais"],
+        tags=["ScanMove"],
         operation_id="obter_localizacao",
         parameters=[
             OpenApiParameter(
@@ -124,7 +124,7 @@ class MovimentacaoViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
 
     @extend_schema(
-        tags=["Estoque de Materiais"],
+        tags=["ScanMove"],
         operation_id="listar_movimentacoes",
         responses={200: MovimentacaoSerializer(many=True)},
     )
@@ -241,7 +241,7 @@ class MovimentacaoViewSet(viewsets.ViewSet):
         return Response(serializer.data)
 
     @extend_schema(
-        tags=["Estoque de Materiais"],
+        tags=["ScanMove"],
         operation_id="obter_movimentacao",
         responses={200: MovimentacaoSerializer()},
     )
@@ -350,7 +350,7 @@ class MovimentacaoViewSet(viewsets.ViewSet):
         return Response(serializer.data)
 
     @extend_schema(
-        tags=["Estoque de Materiais"],
+        tags=["ScanMove"],
         operation_id="criar_movimentacao",
         request=MovimentacaoSerializer,
         responses={
@@ -422,7 +422,7 @@ class MovimentacaoViewSet(viewsets.ViewSet):
             return Response({"detail": str(e)}, status=500)
 
     @extend_schema(
-        tags=["Estoque de Materiais"],
+        tags=["ScanMove"],
         operation_id="atualizar_movimentacao",
         request=AtualizarMovimentacaoSerializer,
         parameters=[
@@ -502,11 +502,11 @@ class MovimentacaoViewSet(viewsets.ViewSet):
                             [movimentacao],
                         )
                         logging.info(
-                            f"Estoque de materiais atualizado para movimentacao {movimentacao}"
+                            f"ScanMove atualizado para movimentacao {movimentacao}"
                         )
                     except Exception as e:
                         logging.error(
-                            f"Erro ao atualizar o estoque de materiais: {str(e)}"
+                            f"Erro ao atualizar o ScanMove: {str(e)}"
                         )
                         raise
 
@@ -535,7 +535,7 @@ class MovimentacaoViewSet(viewsets.ViewSet):
             )
 
     @extend_schema(
-        tags=["Estoque de Materiais"],
+        tags=["ScanMove"],
         operation_id="excluir_movimentacao",
         parameters=[
             OpenApiParameter(
@@ -597,7 +597,7 @@ class MovimentacaoViewSet(viewsets.ViewSet):
             )
 
     @extend_schema(
-        tags=["Estoque de Materiais"],
+        tags=["ScanMove"],
         operation_id="incluir_pecas",
         request=IncluiPecasSerializer,
         responses={201: None},
@@ -674,7 +674,7 @@ class MovimentacaoViewSet(viewsets.ViewSet):
             )
 
     @extend_schema(
-        tags=["Estoque de Materiais"],
+        tags=["ScanMove"],
         operation_id="excluir_pecas",
         responses={204: None},
     )
