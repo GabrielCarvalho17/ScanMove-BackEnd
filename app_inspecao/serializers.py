@@ -23,7 +23,7 @@ class CorProdutoSerializer(serializers.Serializer):
     desc_cor_produto = serializers.CharField(max_length=40)
     total = serializers.IntegerField(required=True)
     amostra = serializers.IntegerField(required=False)
-    status = serializers.CharField(default="Pendente")
+    status = serializers.CharField(max_length=10, default="Pendente")
     defeitos = DefeitoLancadoSerializer(many=True, required=False)
 
 
@@ -31,6 +31,7 @@ class LoteProducaoSerializer(serializers.Serializer):
     recurso_produtivo = serializers.CharField(max_length=5)
     fase_producao = serializers.CharField(max_length=5)
     desc_recurso = serializers.CharField(max_length=40)
+    status = serializers.CharField(max_length=10, default="Pendente")
     desc_fase_producao = serializers.CharField(max_length=40)
     total = serializers.IntegerField(required=True)
     cores = CorProdutoSerializer(many=True)
@@ -53,3 +54,5 @@ class OrdemInspecaoSerializer(serializers.Serializer):
     lotes = LoteProducaoSerializer(many=True)
 
 
+class AtualizarStatusSerializer(serializers.Serializer):
+    data_alteracao = serializers.DateTimeField()

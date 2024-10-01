@@ -484,7 +484,6 @@ class MovimentacaoViewSet(viewsets.ViewSet):
                     fields_to_update.append("destino = %s")
                     params.append(data["destino"])
                 if "status" in data and data["status"] == True:
-                    print("Entrei aqui!")
                     fields_to_update.append("status = %s")
                     params.append("Finalizada")
 
