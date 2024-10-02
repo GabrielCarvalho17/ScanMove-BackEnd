@@ -182,7 +182,6 @@ class OrdemProducaoViewSet(viewsets.ViewSet):
             return Response({"mensagem": mensagem}, status=404)
 
         if status_code == 200:
-            data = AtualizarStatusSerializer(data).data
             return Response(data, status=200)
 
         # Caso ocorra algum erro, retorna com status 409 e mensagem de erro

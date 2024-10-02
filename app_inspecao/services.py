@@ -321,6 +321,7 @@ class OrdemProducaoService:
     def atualizar_status(self, ordem_producao, novo_status, usuario_id):
         try:
             with connections["default"].cursor() as cursor:
+                # Verifica se a inspeção existe
                 cursor.execute(
                     """
                     SELECT 1 FROM KING_PRODUCAO_INSPECAO 
@@ -337,6 +338,26 @@ class OrdemProducaoService:
                     None,
                 )
 
+            # Validação para status 'Encerrada'
+            if novo_status == 'Encerrada':
+                with connections["default"].cursor() as cursor:
+                    cursor.execute(
+                        """
+                        SELECT 1 FROM KING_INSPECAO_LOTE 
+                        WHERE ORDEM_PRODUCAO = %s AND STATUS != 'Finalizado'
+                        """,
+                        [ordem_producao],
+                    )
+                    lote_nao_finalizado = cursor.fetchone()
+
+                if lote_nao_finalizado:
+                    return (
+                        409,
+                        "Não é possível encerrar a inspeção pois existem lotes não finalizados.",
+                        None,
+                    )
+
+            # Atualiza o status se passar a validação
             with transaction.atomic():
                 with connections["default"].cursor() as cursor:
                     cursor.execute(
@@ -372,3 +393,4 @@ class OrdemProducaoService:
 
         except Exception as e:
             return (409, f"Erro ao atualizar o status: {str(e)}", None)
+
