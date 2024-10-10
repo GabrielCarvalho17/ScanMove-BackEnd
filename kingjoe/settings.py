@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
+
 import os
 from pathlib import Path
 from datetime import timedelta
@@ -21,130 +22,128 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-_fvvyl8k&if7-qu3w*kc#@+n0=4u-v$#p7xn@770vgcbhuyknf'
+SECRET_KEY = "django-insecure-_fvvyl8k&if7-qu3w*kc#@+n0=4u-v$#p7xn@770vgcbhuyknf"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']  # Permite acesso de qualquer host
+ALLOWED_HOSTS = ["*"]  # Permite acesso de qualquer host
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://api-aplicacoes-internas.usekingjoe.com.br',
+    "https://api-aplicacoes-internas.usekingjoe.com.br",
     # outros domínios se necessário
 ]
 
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'rest_framework',
-    'drf_spectacular',
-    'rest_framework_simplejwt',
-    'app_autenticacao',
-    'app_estoque_mp',
-    'app_inspecao',
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "rest_framework",
+    "drf_spectacular",
+    "rest_framework_simplejwt",
+    "app_autenticacao",
+    "app_estoque_mp",
+    "app_inspecao",
 ]
 
 # Configurações do Django REST Framework
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "EXCEPTION_HANDLER": "app_autenticacao.utils.manipulador_de_exceções_jwt_personalizado",
 }
 
 # Configurações do SIMPLE_JWT
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(weeks=1),
-    'REFRESH_TOKEN_LIFETIME': timedelta(weeks=2),
-    'ROTATE_REFRESH_TOKENS': False,
-    'BLACKLIST_AFTER_ROTATION': True,
-    'ALGORITHM': 'HS256',
-    'SIGNING_KEY': SECRET_KEY,
-    'VERIFYING_KEY': None,
-    'AUDIENCE': None,
-    'ISSUER': None,
-    'AUTH_HEADER_TYPES': ('Bearer',),
-    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
-    'USER_ID_FIELD': 'id',
-    'USER_ID_CLAIM': 'user_id',
-    'USER_AUTHENTICATION_RULE': 'rest_framework_simplejwt.authentication.default_user_authentication_rule',
-    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
-    'TOKEN_TYPE_CLAIM': 'token_type',
-    'JTI_CLAIM': 'jti',
+    "ACCESS_TOKEN_LIFETIME": timedelta(seconds=30),
+    "REFRESH_TOKEN_LIFETIME": timedelta(minutes=60),
+    "ROTATE_REFRESH_TOKENS": False,
+    "BLACKLIST_AFTER_ROTATION": True,
+    "ALGORITHM": "HS256",
+    "SIGNING_KEY": SECRET_KEY,
+    "VERIFYING_KEY": None,
+    "AUDIENCE": None,
+    "ISSUER": None,
+    "AUTH_HEADER_TYPES": ("Bearer",),
+    "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
+    "USER_ID_FIELD": "id",
+    "USER_ID_CLAIM": "user_id",
+    "USER_AUTHENTICATION_RULE": "rest_framework_simplejwt.authentication.default_user_authentication_rule",
+    "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
+    "TOKEN_TYPE_CLAIM": "token_type",
+    "JTI_CLAIM": "jti",
 }
+
 
 # Configurações do drf-spectacular
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'king&Joe API',
-    'DESCRIPTION': 'API para gerenciar aplicações internas da King&Joe.',
-    'VERSION': '1.0.0',
-    'CONTACT': {
-        'name': 'TI King&Joe',
-        'email': 'ti@kingjoe.com.br',
+    "TITLE": "king&Joe API",
+    "DESCRIPTION": "API para gerenciar aplicações internas da King&Joe.",
+    "VERSION": "1.0.0",
+    "CONTACT": {
+        "name": "TI King&Joe",
+        "email": "ti@kingjoe.com.br",
     },
-    'LICENSE': {
-        'name': 'Licença MIT',
-        'url': 'https://opensource.org/licenses/MIT',
+    "LICENSE": {
+        "name": "Licença MIT",
+        "url": "https://opensource.org/licenses/MIT",
     },
-    'SERVE_INCLUDE_SCHEMA': False,
-    'SWAGGER_UI_SETTINGS': {
-        'deepLinking': True,
+    "SERVE_INCLUDE_SCHEMA": False,
+    "SWAGGER_UI_SETTINGS": {
+        "deepLinking": True,
     },
-    'SECURITY': [
+    "SECURITY": [
         {
-            'Bearer': {
-                'type': 'apiKey',
-                'name': 'Authorization',
-                'in': 'header',
-                'description': 'JWT Authorization header using the Bearer scheme. Example: "Bearer {token}"'
+            "Bearer": {
+                "type": "apiKey",
+                "name": "Authorization",
+                "in": "header",
+                "description": 'JWT Authorization header using the Bearer scheme. Example: "Bearer {token}"',
             }
         }
     ],
-    
 }
 
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'kingjoe.middleware.LoginRequiredMiddleware',  # Adicione esta linha
-
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "kingjoe.middleware.LoginRequiredMiddleware",  # Adicione esta linha
 ]
 
-LOGIN_URL = '/admin/login/'
+LOGIN_URL = "/admin/login/"
 
-ROOT_URLCONF = 'kingjoe.urls'
+ROOT_URLCONF = "kingjoe.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [os.path.join(BASE_DIR, "templates")],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
 ]
-WSGI_APPLICATION = 'kingjoe.wsgi.application'
+WSGI_APPLICATION = "kingjoe.wsgi.application"
 
 
 # Database
@@ -152,15 +151,15 @@ WSGI_APPLICATION = 'kingjoe.wsgi.application'
 
 # Configurações de Bancos de Dados
 DATABASES = {
-    'default': {
-        'ENGINE': 'mssql',
-        'NAME': 'HOMOLOG',
-        'USER': 'API_KINGEJOE',
-        'PASSWORD': 'K1ng&J03@DB2024',
-        'HOST': '192.168.1.3',
-        'PORT': '1433',
-        'OPTIONS': {
-            'driver': 'ODBC Driver 17 for SQL Server',
+    "default": {
+        "ENGINE": "mssql",
+        "NAME": "HOMOLOG",
+        "USER": "API_KINGEJOE",
+        "PASSWORD": "K1ng&J03@DB2024",
+        "HOST": "192.168.1.3",
+        "PORT": "1433",
+        "OPTIONS": {
+            "driver": "ODBC Driver 17 for SQL Server",
         },
     }
 }
@@ -169,22 +168,21 @@ DATABASES = {
 # DATABASE_ROUTERS = ['kingjoe.routers.DatabaseRouter']
 
 
-
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
@@ -193,10 +191,10 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
 # Configuração de Idioma
-LANGUAGE_CODE = 'pt-br'
+LANGUAGE_CODE = "pt-br"
 
 # Configuração de Fuso Horário
-TIME_ZONE = 'America/Sao_Paulo'
+TIME_ZONE = "America/Sao_Paulo"
 
 # Internacionalização
 USE_I18N = True
@@ -208,16 +206,12 @@ USE_L10N = True
 USE_TZ = True
 
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = "static/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

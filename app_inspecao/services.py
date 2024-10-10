@@ -196,12 +196,12 @@ class OrdemProducaoService:
         ordem_data = self.obter_ordem_producao(ordem_producao)
 
         if not ordem_data:
-            return (None, "Ordem de produção não encontrada.", None)
+            return (404, "Ordem de produção não encontrada.", None)
 
         produto = ordem_data.get("produto")
 
         if not produto:
-            return (None, "Produto não encontrado nos dados da ordem.", None)
+            return (404, "Produto não encontrado nos dados da ordem.", None)
 
         try:
             with connections["default"].cursor() as cursor:
@@ -215,11 +215,8 @@ class OrdemProducaoService:
                 inspecao_existente = cursor.fetchone()
 
             if inspecao_existente:
-                return (False, "Já existe inspeção para esta ordem de produção", None)
-        except Exception as e:
-            return (False, f"Erro ao verificar existência da inspeção: {str(e)}", None)
+                return (409, "Já existe inspeção para esta ordem de produção", None)
 
-        try:
             with transaction.atomic():
                 # Criar registro na tabela KING_PRODUCAO_INSPECAO sem DATA_ALTERACAO e USUARIO_ALTERACAO
                 with connections["default"].cursor() as cursor:
@@ -281,16 +278,17 @@ class OrdemProducaoService:
                                 ],
                             )
                 ordem_data = self.obter_ordem_inspecao(ordem_producao)
-                return (True, "Inspeção criada com sucesso.", ordem_data)
+                return (201, "Inspeção criada com sucesso.", ordem_data)
         except Exception as e:
-            return (False, f"Erro ao criar inspeção: {str(e)}", None)
+            return (409, f"Erro ao criar inspeção: {str(e)}", None)
 
     def excluir_inspecao(self, ordem_producao):
         try:
+            # Verificar se a inspeção existe
             with connections["default"].cursor() as cursor:
                 cursor.execute(
                     """
-                    SELECT 1 FROM KING_PRODUCAO_INSPECAO 
+                    SELECT STATUS FROM KING_PRODUCAO_INSPECAO 
                     WHERE ORDEM_PRODUCAO = %s
                     """,
                     [ordem_producao],
@@ -303,6 +301,17 @@ class OrdemProducaoService:
                     "Inspeção não encontrada para a ordem de produção fornecida.",
                     None,
                 )
+
+            # Verificar se o status é 'Encerrada'
+            status_inspecao = inspecao_existente[0]
+            if status_inspecao == 'Encerrada':
+                return (
+                    400,
+                    "Não é possível excluir uma inspeção encerrada.",
+                    None,
+                )
+
+            # Excluir a inspeção e seus registros relacionados
             with transaction.atomic():
                 with connections["default"].cursor() as cursor:
                     cursor.execute(
@@ -313,10 +322,12 @@ class OrdemProducaoService:
                         [ordem_producao],
                     )
                 ordem_data = self.obter_ordem_producao(ordem_producao)
+
             return (200, "Inspeção excluída com sucesso.", ordem_data)
 
         except Exception as e:
             return (409, f"Erro ao excluir a inspeção: {str(e)}", None)
+
 
     def atualizar_status(self, ordem_producao, novo_status, usuario_id):
         try:

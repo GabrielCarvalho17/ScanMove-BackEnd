@@ -6,7 +6,7 @@ from drf_spectacular.views import (
     SpectacularAPIView,
     SpectacularSwaggerView,
 )
-from .views import UsuarioView, CustomTokenObtainPairView, CustomTokenRefreshView
+from .views import UsuarioView, ObterTokenView, AtualizarTokenView
 
 router = DefaultRouter()
 router.register(r'usuarios', UsuarioView, basename='usuario')
@@ -16,6 +16,6 @@ urlpatterns = [
     path('swagger/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('', RedirectView.as_view(url='/admin/login/', permanent=True)),
     path('', include(router.urls)),  # Inclui as rotas diretamente
-    path('token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('token/refresh/', CustomTokenRefreshView.as_view(), name='token_refresh'),
+    path('token/', ObterTokenView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', AtualizarTokenView.as_view(), name='token_refresh'),
 ]

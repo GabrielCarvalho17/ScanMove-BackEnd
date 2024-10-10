@@ -64,28 +64,26 @@ class OrdemProducaoViewSet(viewsets.ViewSet):
         },
     )
     def criar_inspecao(self, request):
-
         ordem_producao = request.data.get("ordem_producao")
 
         if not ordem_producao:
-            print("Ordem de Produção não fornecida")
             return Response(
                 {"mensagem": "A Ordem de produção é obrigatória."},
                 status=400,
             )
 
-        sucesso, mensagem, ordem_data = OrdemProducaoService().criar_inspecao(
+        status, mensagem, ordem_data = OrdemProducaoService().criar_inspecao(
             ordem_producao, request.user.id
         )
 
-        if sucesso is None:
+        if status == 404:
             return Response({"mensagem": mensagem}, status=404)
 
-        if sucesso:
+        if status == 201:
             ordem_data = OrdemInspecaoSerializer(ordem_data)
             return Response(ordem_data.data, status=201)
 
-        return Response({"mensagem": mensagem}, status=409)
+        return Response({"mensagem": mensagem}, status=status)
 
     @extend_schema(
         tags=["Inspeção"],
@@ -93,6 +91,7 @@ class OrdemProducaoViewSet(viewsets.ViewSet):
         responses={
             200: OrdemInspecaoSerializer,
             400: OpenApiResponse(description="A Ordem de produção é obrigatória."),
+            400: OpenApiResponse(description="Não é possível excluir uma inspeção encerrada."),
             404: OpenApiResponse(
                 description="Inspeção não encontrada para a ordem de produção fornecida."
             ),
@@ -186,6 +185,3 @@ class OrdemProducaoViewSet(viewsets.ViewSet):
 
         # Caso ocorra algum erro, retorna com status 409 e mensagem de erro
         return Response({"mensagem": mensagem}, status=409)
-    
-    
-    
