@@ -1,6 +1,6 @@
 from rest_framework.views import exception_handler
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
-from rest_framework.response import Response
+
 
 def manipulador_de_exceções_jwt_personalizado(exc, context):
     """

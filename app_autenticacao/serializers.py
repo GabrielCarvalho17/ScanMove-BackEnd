@@ -2,12 +2,6 @@
 
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework_simplejwt.serializers import (
-    TokenObtainPairSerializer,
-    TokenRefreshSerializer,
-)
-
 
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
@@ -38,29 +32,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
         return instance
 
 
-class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
-    """
-    Customiza o TokenObtainPairSerializer para incluir o username na resposta.
-    """
-    def validate(self, attrs):
-        # Chama a validação padrão para obter os tokens (access e refresh)
-        data = super().validate(attrs)
-        
-        # Adiciona o username ao payload de resposta
-        data["username"] = self.user.username
-        return data
-
-
-class CustomTokenRefreshSerializer(TokenRefreshSerializer):
-    """
-    Customiza o TokenRefreshSerializer para incluir o username na resposta do refresh.
-    """
-    def validate(self, attrs):
-        # Chama a validação padrão para renovar os tokens
-        data = super().validate(attrs)
-
-        # Decodifica o RefreshToken para obter o username
-        refresh = RefreshToken(attrs["refresh"])
-        data["username"] = refresh.get("username")
-        return data
-
+class AutenticacaoSerializer(serializers.Serializer):
+    refresh = serializers.CharField()
+    access = serializers.CharField()
+    username = serializers.CharField()
